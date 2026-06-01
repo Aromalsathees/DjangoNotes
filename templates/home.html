@@ -1,20 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+ {% extends 'index.html' %}
+{% load static %}
 
+    {% block content %}
+
+    <h3>this is home page</h3>
 
     <div>
-        <h1 style="color: red;">The below batman image is a static one ,coz it is directly loaded from an external URL, not from Django media or database</h1>
+        <h1 class="batman">The below batman image is a static one ,coz it is directly loaded from an external URL, not from Django media or database</h1>
     <img  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjMJwSAqRjTwAqbD32c1jTQEW7vJdoEf-mNw&s" alt="">
+    <img src="https://upload.wikimedia.org/wikipedia/en/f/f2/Robert_Downey_Jr._as_Tony_Stark_in_Avengers_Infinity_War.jpg" alt="">
     </div>
 
-
-<h1 style="color: green;">The below are dynamic datas , coz its loaded from the backend </h1>
+<h1 class="superman">The below are dynamic datas , coz its loaded from the backend </h1>
     {% for item in products %}
 <div>
     <h2>{{item.product_name}}</h2>
@@ -22,9 +19,9 @@
     <h1>{{item.product_price}}</h1>
     <img src="{{item.image.url}}" alt="">
 </div>
+
+
     {% endfor %}
 
-</body>
-</html>
-
-
+ 
+{% endblock %}
