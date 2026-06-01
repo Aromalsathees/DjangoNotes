@@ -1,83 +1,151 @@
-🎯 What is Django Media Files Setup?
+🎯 What is Django Template Inheritance?
 
-Django project il images, videos, pdf files pole ullath upload cheyyanum store cheyyanum vendi aanu Media Files system use cheyyunnath. Basically, nammal oru product create cheyyumbo (example: Adidas shoes), athinte image backend il store cheyyanum frontend il display cheyyanum oru proper configuration venam.
+Django project il common HTML code (Navbar, Footer, CSS links, JavaScript imports, Bootstrap etc.) oro page-ilum repeat cheyyathe reuse cheyyan vendi aanu Template Inheritance use cheyyunnath.
 
-👉 Django default ayi files serve cheyyilla. Athukond nammal manually media configuration set cheyyanam.
+Basically, nammal oru base template create cheyyum, baki ella pages um athine inherit cheyyum.
 
+👉 Django-yile DRY (Don't Repeat Yourself) principle implement cheyyanulla oru important feature aanu.
 
 ---
 
-🧠 Simple Explanation 
+🧠 Simple Explanation
 
-Nammal oru ecommerce website build cheyyunnu enn karuthuka. Oru product add cheyyumbo:
+Nammal oru ecommerce website build cheyyunnu enn karuthuka.
 
-Product name (Adidas shoes)
+Pages:
 
-Description
+- Home Page
+- Store Page
+- Product Detail Page
+- Cart Page
 
-Image (shoe photo)
+Ee ella pages-ilum common ayi ullath:
 
+- Navbar
+- Footer
+- CSS Files
+- JavaScript Files
 
-Ithil image database il store cheyyilla. Django athine media folder il save cheyyum, and database il only path store cheyyum.
+Inheritance illenkil ee code ella page-ilum copy-paste cheyyendi varum.
 
-Example:
-media/products/shoes.jpg
-
-Database il store aakunnath:
-products/shoes.jpg
-
+Template Inheritance use cheythal common code oru single file-il vechu manage cheyyam.
 
 ---
 
 🔄 How it works internally
 
-1. User image upload cheyyunnu (admin or form)
+1. Create a Base Template
 
+Example: "base.html"
 
-2. Django ath media folder il save cheyyum
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Store</title>
+</head>
+<body>
 
+    <nav>
+        Navbar
+    </nav>
 
-3. Database il file path store aakum
+    {% block content %}
+    {% endblock %}
 
+    <footer>
+        Footer
+    </footer>
 
-4. Browser MEDIA_URL use cheyth image fetch cheyyum
-
-
-5. Frontend il image display aakum
-
-
-
-
----
-
-💡 Why we need this setup?
-
-Without media configuration → images won't load in browser ❌
-
-Django default ayi static files serve cheyyilla ❌
-
-Production ready file handling system create cheyyan ✔
-
-
+</body>
+</html>
 
 ---
 
-🚀 Where this is used?
+2. Create a Child Template
 
-🛒 Ecommerce websites (product images)
+Example: "home.html"
 
-👤 User profile pictures
+{% extends 'base.html' %}
 
-📄 Document uploads (PDF, invoices)
+{% block content %}
+<h1>Welcome to Home Page</h1>
+{% endblock %}
 
-🖼️ Any file management system
+---
 
+3. Django Combines Both Templates
 
+When the page is rendered:
+
+- Base template is loaded first.
+- Child template content is inserted into the matching block.
+
+---
+
+4. Final Output in Browser
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Store</title>
+</head>
+<body>
+
+    <nav>
+        Navbar
+    </nav>
+
+    <h1>Welcome to Home Page</h1>
+
+    <footer>
+        Footer
+    </footer>
+
+</body>
+</html>
+
+---
+
+💡 Why do we need Template Inheritance?
+
+Without Template Inheritance:
+
+❌ Repeated Navbar code
+
+❌ Repeated Footer code
+
+❌ Repeated CSS and JavaScript imports
+
+❌ Difficult maintenance
+
+With Template Inheritance:
+
+✔ Reusable layout
+
+✔ Less code duplication
+
+✔ Easy maintenance
+
+✔ Clean project structure
+
+✔ Better scalability
+
+---
+
+🚀 Where is it used?
+
+- Ecommerce Websites
+- Blog Websites
+- Company Websites
+- Portfolio Websites
+- Learning Management Systems
+
+Almost every Django project uses Template Inheritance.
 
 ---
 
 ⚡ Summary
 
-Django Media Files setup is basically a bridge between uploaded files and browser display system. It ensures files are properly stored, tracked, and served in development environment.
+Django Template Inheritance allows multiple pages to share a common HTML structure using a base template. Instead of repeating the same layout code in every page, common elements such as Navbar, Footer, CSS, and JavaScript imports are defined once in a base template and reused across the project.
 
-  
+This makes the application cleaner, easier to maintain, and follows the DRY (Don't Repeat Yourself) principle.
