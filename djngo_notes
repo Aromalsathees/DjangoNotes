@@ -1,151 +1,190 @@
-🎯 What is Django Template Inheritance?
+🎯 **Django POST Request → Save Data → Show on Home Page (Actual Flow)**
 
-Django project il common HTML code (Navbar, Footer, CSS links, JavaScript imports, Bootstrap etc.) oro page-ilum repeat cheyyathe reuse cheyyan vendi aanu Template Inheritance use cheyyunnath.
+Nammal oru Todo App undakkunnu enn karuthuka.
 
-Basically, nammal oru base template create cheyyum, baki ella pages um athine inherit cheyyum.
-
-👉 Django-yile DRY (Don't Repeat Yourself) principle implement cheyyanulla oru important feature aanu.
+User task add cheyyunnu, athe page-il thanne tasks display cheyyunnu.
 
 ---
 
-🧠 Simple Explanation
+## 🔄 Complete Flow
 
-Nammal oru ecommerce website build cheyyunnu enn karuthuka.
-
-Pages:
-
-- Home Page
-- Store Page
-- Product Detail Page
-- Cart Page
-
-Ee ella pages-ilum common ayi ullath:
-
-- Navbar
-- Footer
-- CSS Files
-- JavaScript Files
-
-Inheritance illenkil ee code ella page-ilum copy-paste cheyyendi varum.
-
-Template Inheritance use cheythal common code oru single file-il vechu manage cheyyam.
-
----
-
-🔄 How it works internally
-
-1. Create a Base Template
-
-Example: "base.html"
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My Store</title>
-</head>
-<body>
-
-    <nav>
-        Navbar
-    </nav>
-
-    {% block content %}
-    {% endblock %}
-
-    <footer>
-        Footer
-    </footer>
-
-</body>
-</html>
-
----
-
-2. Create a Child Template
-
-Example: "home.html"
-
-{% extends 'base.html' %}
-
-{% block content %}
-<h1>Welcome to Home Page</h1>
-{% endblock %}
+```text
+┌──────────┐
+│   User   │
+└────┬─────┘
+     │
+     │ 1. Fill Form
+     ▼
+┌──────────────┐
+│  home.html   │
+└────┬─────────┘
+     │
+     │ 2. POST Request
+     ▼
+┌──────────────┐
+│   urls.py    │
+└────┬─────────┘
+     │
+     ▼
+┌──────────────┐
+│   views.py   │
+└────┬─────────┘
+     │
+     │ 3. request.POST
+     ▼
+┌──────────────┐
+│  models.py   │
+└────┬─────────┘
+     │
+     │ 4. save()
+     ▼
+┌──────────────┐
+│  Database    │
+└────┬─────────┘
+     │
+     │ 5. Fetch Data
+     ▼
+┌──────────────┐
+│   views.py   │
+└────┬─────────┘
+     │
+     │ 6. Context
+     ▼
+┌──────────────┐
+│  home.html   │
+└────┬─────────┘
+     │
+     ▼
+┌──────────┐
+│ Browser  │
+└──────────┘
+```
 
 ---
 
-3. Django Combines Both Templates
+## Real Django Request Cycle
 
-When the page is rendered:
+### First Time Page Load
 
-- Base template is loaded first.
-- Child template content is inserted into the matching block.
+```text
+User
+ ↓
+GET Request
+ ↓
+urls.py
+ ↓
+views.py
+ ↓
+Database (fetch records)
+ ↓
+home.html
+ ↓
+Browser
+```
 
----
-
-4. Final Output in Browser
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My Store</title>
-</head>
-<body>
-
-    <nav>
-        Navbar
-    </nav>
-
-    <h1>Welcome to Home Page</h1>
-
-    <footer>
-        Footer
-    </footer>
-
-</body>
-</html>
+User existing data kaanunnu.
 
 ---
 
-💡 Why do we need Template Inheritance?
+### Form Submit Cheyyumbol
 
-Without Template Inheritance:
+```text
+User
+ ↓
+POST Request
+ ↓
+urls.py
+ ↓
+views.py
+ ↓
+request.POST
+ ↓
+Model Object Create
+ ↓
+save()
+ ↓
+Database
+```
 
-❌ Repeated Navbar code
-
-❌ Repeated Footer code
-
-❌ Repeated CSS and JavaScript imports
-
-❌ Difficult maintenance
-
-With Template Inheritance:
-
-✔ Reusable layout
-
-✔ Less code duplication
-
-✔ Easy maintenance
-
-✔ Clean project structure
-
-✔ Better scalability
+Data database-il save aayi.
 
 ---
 
-🚀 Where is it used?
+### Save Kazhinjal
 
-- Ecommerce Websites
-- Blog Websites
-- Company Websites
-- Portfolio Websites
-- Learning Management Systems
+Usually Django ingane cheyyum:
 
-Almost every Django project uses Template Inheritance.
+```text
+Database
+ ↓
+redirect('/')
+```
+
+Reason:
+
+* Duplicate form submission avoid cheyyan
+* Refresh cheythal veendum save aakathirikkan
+
+Ithine **PRG Pattern (Post → Redirect → Get)** enn parayum.
 
 ---
 
-⚡ Summary
+### Redirect Kazhinjal
 
-Django Template Inheritance allows multiple pages to share a common HTML structure using a base template. Instead of repeating the same layout code in every page, common elements such as Navbar, Footer, CSS, and JavaScript imports are defined once in a base template and reused across the project.
+```text
+Browser
+ ↓
+GET Request
+ ↓
+urls.py
+ ↓
+views.py
+ ↓
+Database (fetch all data)
+ ↓
+Context
+ ↓
+home.html
+ ↓
+Browser
+```
 
-This makes the application cleaner, easier to maintain, and follows the DRY (Don't Repeat Yourself) principle.
+Ippol latest data display aakum.
+
+---
+
+## Interview-Level Understanding
+
+Django-il data add cheyyunna correct flow:
+
+```text
+GET Request
+ ↓
+Display Form
+ ↓
+User Submit
+ ↓
+POST Request
+ ↓
+View
+ ↓
+Model
+ ↓
+Database Save
+ ↓
+Redirect
+ ↓
+GET Request
+ ↓
+Fetch Data
+ ↓
+Template Render
+ ↓
+Response
+```
+
+---
+
+⚡ **Most important point:**
+
+Data save cheytha sesham direct template render cheyyunnathinekkal Django projects-il **redirect → GET → render** pattern aanu common. Ithaan professional Django CRUD applications-il normally follow cheyyunnath.
