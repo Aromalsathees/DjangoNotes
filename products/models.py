@@ -12,3 +12,5 @@ class Add_Products(models.Model):
         return self.product_name
 
 
+    
+    

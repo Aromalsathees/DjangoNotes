@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from .views import home,about,payment
+from .views import home,about,payment,delete_product
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -26,6 +26,8 @@ urlpatterns = [
     path('products/',include('products.urls')),
 
     path('',home,name='home_url'), 
+
+    path('delete_product/<int:id>/',delete_product,name='delete_product'),
 
     path('about/',about),
     path('payment/',payment)

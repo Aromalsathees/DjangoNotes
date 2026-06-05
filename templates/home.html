@@ -33,6 +33,9 @@
     {% for item in products %}
         <h2>product Name : {{item.product_name}}</h2>
         <p>product Description :{{item.product_desc}}</p>
+        <p>{{item.id}}</p>
+        <a href="{% url 'delete_product' item.id %}"><button>Delete</button></a>
+        <a href=""><button>update</button></a> 
     {% endfor %}
 </div>
 

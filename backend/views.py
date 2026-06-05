@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from products.models import Add_Products
 
 
@@ -20,6 +20,7 @@ def home(request):
             product_price=get_price
         )
         add_product.save()
+      
    # data is created to backend from here
 
 
@@ -33,9 +34,19 @@ def home(request):
     return render(request,'home.html',context)
 
 
+def delete_product(request,id):
+    print(id)
+    get_data = Add_Products.objects.get(id=id)
+    print(get_data)
+    get_data.delete()
+    print(get_data)
+    return redirect('home_url')
+
 
 def payment(request):
     return render(request,'payment.html')
+
+
 
 
 
