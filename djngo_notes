@@ -1,25 +1,23 @@
-🎯 **Django POST Request → Save Data → Show on Home Page (Actual Flow)**
+🎯 Django DELETE Request → Delete Data → Show Updated Data (Actual Flow)
 
-Nammal oru Todo App undakkunnu enn karuthuka.
+Todo App-il user oru task delete cheyyunnu enn karuthuka.
 
-User task add cheyyunnu, athe page-il thanne tasks display cheyyunnu.
 
 ---
 
-## 🔄 Complete Flow
+🔄 Complete Flow
 
-```text
 ┌──────────┐
 │   User   │
 └────┬─────┘
      │
-     │ 1. Fill Form
+     │ 1. Click Delete Button
      ▼
 ┌──────────────┐
 │  home.html   │
 └────┬─────────┘
      │
-     │ 2. POST Request
+     │ 2. Request
      ▼
 ┌──────────────┐
 │   urls.py    │
@@ -30,25 +28,31 @@ User task add cheyyunnu, athe page-il thanne tasks display cheyyunnu.
 │   views.py   │
 └────┬─────────┘
      │
-     │ 3. request.POST
+     │ 3. Find Object
      ▼
 ┌──────────────┐
 │  models.py   │
 └────┬─────────┘
      │
-     │ 4. save()
+     │ 4. delete()
      ▼
 ┌──────────────┐
 │  Database    │
 └────┬─────────┘
      │
-     │ 5. Fetch Data
+     │ 5. Redirect
      ▼
 ┌──────────────┐
 │   views.py   │
 └────┬─────────┘
      │
-     │ 6. Context
+     │ 6. GET Request
+     ▼
+┌──────────────┐
+│  Database    │
+└────┬─────────┘
+     │
+     │ 7. Fetch Remaining Data
      ▼
 ┌──────────────┐
 │  home.html   │
@@ -58,133 +62,192 @@ User task add cheyyunnu, athe page-il thanne tasks display cheyyunnu.
 ┌──────────┐
 │ Browser  │
 └──────────┘
-```
+
 
 ---
 
-## Real Django Request Cycle
+Example Database Before Delete
 
-### First Time Page Load
+Tasks Table
 
-```text
++----+-----------+
+| id | task      |
++----+-----------+
+| 1  | Study     |
+| 2  | Gym       |
+| 3  | Shopping  |
++----+-----------+
+
+User "Delete" click cheyyunnu task id=2 (Gym).
+
+
+---
+
+Actual Django Request Cycle
+
+Step 1: User Clicks Delete
+
 User
  ↓
-GET Request
+Click Delete Button
  ↓
-urls.py
- ↓
-views.py
- ↓
-Database (fetch records)
- ↓
-home.html
- ↓
-Browser
-```
+/delete/2/
 
-User existing data kaanunnu.
 
 ---
 
-### Form Submit Cheyyumbol
+Step 2: URL Routing
 
-```text
-User
- ↓
-POST Request
- ↓
 urls.py
  ↓
-views.py
+path('delete/<int:id>/', views.delete_task)
  ↓
-request.POST
- ↓
-Model Object Create
- ↓
-save()
- ↓
-Database
-```
+views.delete_task(request, 2)
 
-Data database-il save aayi.
 
 ---
 
-### Save Kazhinjal
+Step 3: View Receives Request
 
-Usually Django ingane cheyyum:
-
-```text
-Database
+views.py
  ↓
-redirect('/')
-```
+Task.objects.get(id=2)
 
-Reason:
+Database-il ninn id=2 ulla object fetch cheyyunnu.
 
-* Duplicate form submission avoid cheyyan
-* Refresh cheythal veendum save aakathirikkan
+Task Object
 
-Ithine **PRG Pattern (Post → Redirect → Get)** enn parayum.
+id = 2
+task = "Gym"
+
 
 ---
 
-### Redirect Kazhinjal
+Step 4: Delete Object
 
-```text
-Browser
+task.delete()
+
+
+---
+
+Step 5: Database Operation
+
+Before:
+
++----+-----------+
+| 1  | Study     |
+| 2  | Gym       |
+| 3  | Shopping  |
++----+-----------+
+
+SQL internally:
+
+DELETE FROM task
+WHERE id = 2;
+
+After:
+
++----+-----------+
+| 1  | Study     |
+| 3  | Shopping  |
++----+-----------+
+
+Record permanently remove aayi.
+
+
+---
+
+Step 6: Redirect
+
+Delete kazhinjal:
+
+return redirect('home')
+
+Flow:
+
+View
  ↓
-GET Request
+Redirect
+ ↓
+/
+
+
+---
+
+Step 7: New GET Request
+
+Browser automatic aayi:
+
+GET /
  ↓
 urls.py
  ↓
-views.py
- ↓
-Database (fetch all data)
- ↓
+home view
+
+
+---
+
+Step 8: Fetch Updated Data
+
+tasks = Task.objects.all()
+
+Database:
+
++----+-----------+
+| 1  | Study     |
+| 3  | Shopping  |
++----+-----------+
+
+
+---
+
+Step 9: Render Template
+
 Context
  ↓
 home.html
  ↓
 Browser
-```
 
-Ippol latest data display aakum.
+User updated list kaanunnu:
+
+Study
+Shopping
+
+"Gym" kaanilla.
+
 
 ---
 
-## Interview-Level Understanding
+Professional Django Delete Flow
 
-Django-il data add cheyyunna correct flow:
-
-```text
-GET Request
- ↓
-Display Form
- ↓
-User Submit
- ↓
-POST Request
- ↓
-View
- ↓
-Model
- ↓
-Database Save
- ↓
+User Click Delete
+        ↓
+Request
+        ↓
+urls.py
+        ↓
+views.py
+        ↓
+Get Object By ID
+        ↓
+delete()
+        ↓
+Database Remove Record
+        ↓
 Redirect
- ↓
+        ↓
 GET Request
- ↓
-Fetch Data
- ↓
-Template Render
- ↓
+        ↓
+Fetch Updated Data
+        ↓
+Render Template
+        ↓
 Response
-```
+
 
 ---
 
-⚡ **Most important point:**
+⚡ Interview Point
 
-Data save cheytha sesham direct template render cheyyunnathinekkal Django projects-il **redirect → GET → render** pattern aanu common. Ithaan professional Django CRUD applications-il normally follow cheyyunnath.
+Django CRUD applications-il delete operation kazhinjalum save operation pole thanne Redirect → GET → Render pattern aanu use cheyyunnath. Ithu page refresh cheythal delete operation veendum execute aakathirikkanum clean request cycle maintain cheyyanum sahayikkunnu.
