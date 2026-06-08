@@ -1,0 +1,18 @@
+{% extends 'index.html' %}
+
+{% block content %}
+     <h1>This is update page</h1>
+     <form action="" method="POST">
+        {% csrf_token %}
+         <label for="">name</label>
+         <input type="text" value="{{get_data.product_name}}" name="name" >
+
+         <label for="">descrition</label>
+         <input type="text" value="{{get_data.product_desc}}" name="descrition">
+
+         <label for="">price</label>
+         <input type="text" value="{{get_data.product_price}}" name="price">
+         
+         <button type="submit">submit</button>
+     </form>
+{% endblock %}

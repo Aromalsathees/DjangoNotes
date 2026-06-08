@@ -35,7 +35,7 @@
         <p>product Description :{{item.product_desc}}</p>
         <p>{{item.id}}</p>
         <a href="{% url 'delete_product' item.id %}"><button>Delete</button></a>
-        <a href=""><button>update</button></a> 
+        <a href="{% url 'update_product' item.id %}"><button>update</button></a> 
     {% endfor %}
 </div>
 

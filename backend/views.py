@@ -20,7 +20,7 @@ def home(request):
             product_price=get_price
         )
         add_product.save()
-      
+        redirect('home_url')
    # data is created to backend from here
 
 
@@ -47,6 +47,25 @@ def payment(request):
     return render(request,'payment.html')
 
 
+def update_product(request,id):
+    
+    get_data = Add_Products.objects.get(id=id)
+
+    if request.method == 'POST':
+        get_data.product_name = request.POST.get('name')
+        get_data.product_desc = request.POST.get('descrition')
+        get_data.product_price = request.POST.get('price')
+
+        get_data.save()
+        return redirect('home_url')
+
+            
+
+
+    context = {
+        'get_data':get_data
+    }
+    return render(request,'update.html',context)
 
 
 
