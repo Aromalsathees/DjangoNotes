@@ -3,6 +3,9 @@ from products.models import Add_Products
 from django.contrib import messages
 from django.contrib.auth.models import User
 
+from django.contrib.auth import authenticate,login
+from django.contrib.auth.decorators import login_required
+
 def register(request):
 
     if request.method == 'POST':
@@ -20,7 +23,7 @@ def register(request):
         if User.objects.filter(username=username).exists():
             messages.error(request,'username already exist')
 
-        if User.objects.filter(email=email).exist():
+        if User.objects.filter(email=email).exists():
             messages.error(request,'email id already exist')
         
         # saving data to database
@@ -32,11 +35,32 @@ def register(request):
         user.save()
 
         messages.success(request,'you are succesfully registerd your account')
-        # return redirect('login')
+        return redirect('login')
 
     return render(request,'authentication/register.html')
 
 
+def login_view(request):
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request,username=username, password=password)
+
+        if user is not None:
+            login(request,user)
+            messages.success(request,'welcome back')
+            return redirect('home')
+        else:
+            messages.error(request,'invalid credentials')
+            return redirect('login')
+
+    return render(request,'authentication/login.html')
+
+@login_required(login_url='login')
+def home(request):
+    return render(request,'authentication/home.html')
 
 
 
@@ -63,6 +87,7 @@ def register(request):
 #         get_price = request.POST.get('price')
 
 #         # print(get_name,get_descriptio,get_price)
+   
 
 #         add_product = Add_Products(
 #             product_name=get_name,
