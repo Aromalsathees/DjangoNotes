@@ -4,6 +4,15 @@
 
 <h1>This is signup page</h1>
 
+{% if messages %}
+{% for message in messages %}
+
+<h1>{{message}}</h1>
+
+
+{% endfor %}
+{% endif %}
+
 <form  class="register-form" method="POST" action="{% url 'register' %}">
     {% csrf_token %}
 
