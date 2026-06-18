@@ -1,80 +1,80 @@
-from django.shortcuts import render,redirect
-from products.models import Add_Products
-from django.contrib import messages
-from django.contrib.auth.models import User
+# from django.shortcuts import render,redirect
+# from products.models import Add_Products
+# from django.contrib import messages
+# from django.contrib.auth.models import User
 
-from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.decorators import login_required
+# from django.contrib.auth import authenticate,login,logout
+# from django.contrib.auth.decorators import login_required
 
-def register(request):
+# def register(request):
 
-    if request.method == 'POST':
+#     if request.method == 'POST':
     
-        # geting the payload 
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        confirm_password = request.POST.get('cpassword')
+#         # geting the payload 
+#         username = request.POST.get('username')
+#         email = request.POST.get('email')
+#         password = request.POST.get('password')
+#         confirm_password = request.POST.get('cpassword')
         
-        # checking whetere the credentials are ok or not
-        if password != confirm_password:
-            messages.error(request,'password do not match')
-            return redirect('register')
+#         # checking whetere the credentials are ok or not
+#         if password != confirm_password:
+#             messages.error(request,'password do not match')
+#             return redirect('register')
 
-        if User.objects.filter(username=username).exists():
-            messages.error(request,'username already exist')
-            return redirect('register')
+#         if User.objects.filter(username=username).exists():
+#             messages.error(request,'username already exist')
+#             return redirect('register')
 
-        if User.objects.filter(email=email).exists():
-            messages.error(request,'email id already exist')
-            return redirect('register')
+#         if User.objects.filter(email=email).exists():
+#             messages.error(request,'email id already exist')
+#             return redirect('register')
         
-        # saving data to database
-        user = User.objects.create_user(
-            username=username,
-            email=email,
-            password=password    
-        )
+#         # saving data to database
+#         user = User.objects.create_user(
+#             username=username,
+#             email=email,
+#             password=password    
+#         )
         
-        user.save()
+#         user.save()
 
-        messages.success(request,'you are succesfully registerd your account')
-        return redirect('login')
+#         messages.success(request,'you are succesfully registerd your account')
+#         return redirect('login')
 
-    return render(request,'authentication/register.html')
-
-
-def login_view(request):
-
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-
-        user = authenticate(request,username=username, password=password)
-
-        if user is not None:
-            login(request,user)
-            messages.success(request,'welcome back')
-            return redirect('home')
-        else:
-            messages.error(request,'invalid credentials')
-            return redirect('login')
-
-    return render(request,'authentication/login.html')
+#     return render(request,'authentication/register.html')
 
 
-@login_required(login_url='login')
-def home(request):
-    print(request.user)
-    print(request.user.is_authenticated)
+# def login_view(request):
 
-    print('session ID:', request.session.session_key)
+#     if request.method == 'POST':
+#         username = request.POST.get('username')
+#         password = request.POST.get('password')
+
+#         user = authenticate(request,username=username, password=password)
+
+#         if user is not None:
+#             login(request,user)
+#             messages.success(request,'welcome back')
+#             return redirect('home')
+#         else:
+#             messages.error(request,'invalid credentials')
+#             return redirect('login')
+
+#     return render(request,'authentication/login.html')
+
+
+# @login_required(login_url='login')
+# def home(request):
+#     print(request.user)
+#     print(request.user.is_authenticated)
+
+#     print('session ID:', request.session.session_key)
     
-    return render(request,'authentication/home.html')
+#     return render(request,'authentication/home.html')
 
-def logout_view(request):
-    logout(request)
-    return redirect('login')
+# def logout_view(request):
+#     logout(request)
+#     return redirect('login')
 
 
 
