@@ -1,6 +1,9 @@
 from django import forms
 from .models import *
 
+
+
+# model form from django
 class RegistarionForm(forms.ModelForm):
 
 # ithu password input boxil kanathe irikkanu
@@ -14,4 +17,13 @@ class RegistarionForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ['first_name','email','password','phone_number','addess']
+        fields = ['username','first_name','email','password','phone_number','addess']
+
+
+# forms.form from django
+class LoginForm(forms.Form):
+
+    email = forms.EmailField()
+    password = forms.CharField(
+        widget=forms.PasswordInput()
+    )

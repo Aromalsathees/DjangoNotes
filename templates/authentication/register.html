@@ -4,7 +4,7 @@
 
 <h1>This is signup page</h1>
 
-<form action="">
+<form action="" method="POST">
     {% csrf_token %}
     {{form.as_p}}
     <button type="submit">Register</button>
