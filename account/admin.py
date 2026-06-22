@@ -7,4 +7,5 @@ class CustomUserModel(admin.ModelAdmin):
 
 
 admin.site.register(CustomUser,CustomUserModel)
+
 admin.site.register(Profile)
