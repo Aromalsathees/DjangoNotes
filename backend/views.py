@@ -6,6 +6,10 @@
 # from django.contrib.auth import authenticate,login,logout
 # from django.contrib.auth.decorators import login_required
 
+
+#   DJANGO BASIC AUTHETICATION STARTS HERE #######################################################################
+
+
 # def register(request):
 
 #     if request.method == 'POST':
@@ -77,20 +81,11 @@
 #     return redirect('login')
 
 
+#   DJANGO BASIC AUTHETICATION ENDS HERE #######################################################################
 
 
 
-
-
-
-
-
-
-
-
-
-# def about(request):
-#     return render(request,'about.html')
+#   DJANGO NORMAL CRUD OPERATION STARTS HERE #######################################################################
 
 # def home(request):
 #     # data is created to backend from here
@@ -131,10 +126,6 @@
 #     return redirect('home_url')
 
 
-# def payment(request):
-#     return render(request,'payment.html')
-
-
 # def update_product(request,id):
     
 #     get_data = Add_Products.objects.get(id=id)
@@ -147,9 +138,6 @@
 #         get_data.save()
 #         return redirect('home_url')
 
-            
-
-
 #     context = {
 #         'get_data':get_data
 #     }
@@ -158,4 +146,4 @@
 
 
 
-
+#   DJANGO NORMAL CRUD OPERATION ENDS HERE #######################################################################

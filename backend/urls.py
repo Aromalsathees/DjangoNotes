@@ -22,25 +22,32 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+
+
     path('admin/', admin.site.urls),
+    path('',include('account.urls')),
+    path('products/',include('products.urls')),
+
+
+    #  DJANGO BASIC AUTHETICATION URLS STARTS HERE #######################################################################
 
     # path('',home,name='home'),
     # path('register_view/',register,name='register'),
     # path('login/',login_view,name='login'),
     # path('logout/',logout_view,name='logout'),
 
-    path('',include('account.urls')),
+    #  DJANGO BASIC AUTHETICATION URLS ENDS HERE ###################################################################
 
-    # path('products/',include('products.urls')),
+   
+    #  DJANGO BASIC CRUD URLS STARTS HERE ###################################################################
 
     # path('',home,name='home_url'), 
-
     # path('delete_product/<int:id>/',delete_product,name='delete_product'),
-
     # path('update_product/<int:id>/',update_product,name='update_product'),
-
     # path('about/',about),
-    # path('payment/',payment)
+
+    #  DJANGO BASIC CRUD URLS ENDS HERE ###################################################################
+ 
     
 
 ]
