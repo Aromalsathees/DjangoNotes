@@ -1,0 +1,20 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+<form action="{% url 'view_profile' %}" method="POST">
+    {% csrf_token %}
+    <label for="">user</label>
+    <input type="text" value="{{get_user.username}}">
+
+    <label for="">bio</label>
+    <input type="text" name="bio">
+
+      <label for="">age</label>
+    <input type="number" name="age">
+
+    <button type="submit">submit</button>
+</form>
+
+
+{% endblock %}
