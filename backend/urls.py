@@ -27,6 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('account.urls')),
     path('products/',include('products.urls')),
+    path('classcrudapp/',include('classcrudapp.urls')),
 
 
     #  DJANGO BASIC AUTHETICATION URLS STARTS HERE #######################################################################

@@ -8,6 +8,7 @@ from .models import *
 def home(request):
     print(request.user)
     print(request.user.is_authenticated)
+
     return render(request,'authentication/home.html')
 
 
@@ -73,20 +74,31 @@ def profile(request):
     print(request.user)
     print(request.user.is_authenticated)
 
-    if request.method == 'POST':
+    profile = Profile.objects.get(user=request.user)
 
-        profile = Profile.objects.get(user=request.user)
+    if request.method == 'POST':
 
         profile.bio = request.POST.get('bio')
         profile.age = request.POST.get('age')
+        profile.age = request.POST.get('age')
 
+        profile.pronounse = request.POST.get('pronounse')
+
+        if 'single_status' in request.POST:
+            profile.single_status = True 
+        else:
+             profile.single_status = False 
+
+
+        profile.profile_pic = request.FILES.get('profile_pic') 
         profile.save()
 
         return redirect('home')
 
-    get_user = request.user
+    # get_user = request.user
 
     context = {
-        'get_user':get_user
+        'profile':profile,
+        'STATUS_CHOICE': Profile.STATUS_CHOICE
     }
-    return render(request,'authentication/profile.html',context)
+    return render(request,'authentication/profile.html',context)   

@@ -2,17 +2,44 @@
 
 {% block content %}
 
-<form action="{% url 'view_profile' %}" method="POST">
+<form action="{% url 'view_profile' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <label for="">user</label>
-    <input type="text" value="{{get_user.username}}">
+    <input type="text" value="{{profile.user}}">
 
     <label for="">bio</label>
-    <input type="text" name="bio">
+    <input type="text" name="bio" value="{{profile.bio}}">
 
       <label for="">age</label>
-    <input type="number" name="age">
+    <input type="number" name="age" value="{{profile.age}}">
 
+    <label for="">image</label>
+    <input type="file" name="profile_pic">
+
+
+    <select name="pronounse" id="">
+        {% for value, label in STATUS_CHOICE %}
+        <option value="{{value}}"
+           {% if profile.pronounse == value %}
+             selected
+             {% endif %}
+             >
+            {{label}}
+        </option>
+        {% endfor %}
+    </select>
+    
+    <label for="">
+    <input type="checkbox" name="single_status"
+
+    {% if profile.single_status %}
+        checked
+    {% endif %}>
+    single status
+  </label>
+
+
+    
     <button type="submit">submit</button>
 </form>
 

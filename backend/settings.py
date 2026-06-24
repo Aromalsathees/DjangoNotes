@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'products',
     'account',
+    'classcrudapp',
 ]
 
 AUTH_USER_MODEL = "account.CustomUser"
