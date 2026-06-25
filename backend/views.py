@@ -116,6 +116,17 @@
 
 #     return render(request,'home.html',context)
 
+# def view_detail(request, get_id):
+#     try:
+#         products = Add_Products.objects.get(id=get_id)
+#         context ={
+#             'products':products
+#         }
+#         return render(request,'product_detail.html')
+    
+#     except Add_Products.DoesNotExist:
+#         message
+
 
 # def delete_product(request,id):
 #     print(id)
