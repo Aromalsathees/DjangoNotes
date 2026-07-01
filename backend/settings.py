@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'products',
     'account',
     'classcrudapp',
+    'order',
 ]
 
 AUTH_USER_MODEL = "account.CustomUser"
@@ -80,8 +81,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'crud_app',
+        'USER':'root',
+        'PASSWORD':'aromal',
+        'HOST':'localhost',
+        'PORT':'3306',
     }
 }
 
@@ -126,3 +131,8 @@ STATIC_ROOT = BASE_DIR/'staticfiles'
 # media file configration setups
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/'media'
+
+
+# settings.py
+RAZORPAY_KEY_ID = "your_key_id_here"
+RAZORPAY_KEY_SECRET = "your_key_secret_here"
