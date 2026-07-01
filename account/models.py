@@ -32,7 +32,6 @@ class Profile(models.Model):
     bio = models.TextField(max_length=30, null=True, blank=True)
     age = models.IntegerField(null=True, blank=True)
     profile_pic = models.ImageField(upload_to='images/users_profile_pic',null=True, blank=True)
-    # single_status = models.BooleanField(default=False,null=True, blank=True)
     pronounse = models.CharField(max_length=20,choices=STATUS_CHOICE,null=True, blank=True)
 
 

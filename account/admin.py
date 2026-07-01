@@ -6,7 +6,7 @@ class CustomUserModel(admin.ModelAdmin):
     list_display = ['username','email','password']
 
 class ProfileModel(admin.ModelAdmin):
-    list_display = ['user','bio','age','single_status','pronounse','profile_pic']
+    list_display = ['user','bio','age','pronounse','profile_pic']
 
 admin.site.register(CustomUser,CustomUserModel)
 

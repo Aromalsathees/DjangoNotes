@@ -25,9 +25,10 @@ urlpatterns = [
 
 
     path('admin/', admin.site.urls),
-
     
-    path('',include('account.urls')),
+    path('',include('order.urls')),
+    
+    path('accounts/',include('account.urls')),
     path('products/',include('products.urls')),
     path('classcrudapp/',include('classcrudapp.urls')),
 

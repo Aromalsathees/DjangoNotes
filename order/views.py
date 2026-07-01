@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from django.conf import setting
+from django.conf import settings
 from .models import Payment
 
 import json
+import razorpay
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
@@ -24,7 +25,7 @@ def create_order(request):
 
     # save order in DB
     payment = Payment.objects.create(
-        order_id = razorpay_order['id']
+        order_id=razorpay_order['id'],
         amount=amount_paise,
         status="created"
     )
@@ -52,7 +53,7 @@ def verfiy_payment(request):
           }
 
           try:
-               client.utilty.verify_payment_signature(params_dict)
+               client.utility.verify_payment_signature(params_dict)
 
                payment = Payment.objects.get(order_id=data['razorpay_order_id'])
                payment.payment_id = data['razorpay_payment_id']
@@ -61,5 +62,5 @@ def verfiy_payment(request):
                payment.save()
 
                return JsonResponse({'message':'payment successfull'})
-          except:
+          except Exception:
                return JsonResponse({'message':'payment failed'})
